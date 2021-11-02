@@ -38,18 +38,16 @@ robbery(Victim, Robber1, Robber2, Vehicle, StartTime, EndTime) :-
 	personIsSitting(Robber1, Vehicle, SittingTime1),
 	personIsSitting(Robber2, Vehicle, SittingTime1),
 	not(Robber1=Robber2),
-	NotSittingTime1 is SittingTime1 + 1,
-	not(personIsSitting(Robber1, Vehicle, NotSittingTime1)),
+	StartTime is SittingTime1 + 1,
+	not(personIsSitting(Robber1, Vehicle, StartTime)),
 	personIsSitting(Robber1, Vehicle, SittingTime2),
 	personIsSitting(Robber2, Vehicle, SittingTime2),
-	NotSittingTime2 is SittingTime2 - 1,
-	not(personIsSitting(Robber1, Vehicle, NotSittingTime2)),
-	SittingTime1 < NotSittingTime1,
-	NotSittingTime2 < SittingTime2,
-	started(searchPockets(Robber1, Victim), StartTime),
-	finished(searchPockets(Robber1, Victim), EndTime),
-	SittingTime1 < StartTime,
-	EndTime < SittingTime2.
+	EndTime is SittingTime2 - 1,
+	not(personIsSitting(Robber1, Vehicle, EndTime)),
+	started(searchPockets(Robber1, Victim), StartSearchingTime),
+	finished(searchPockets(Robber1, Victim), EndSearchingTime),
+	StartTime < StartSearchingTime,
+	EndSearchingTime < EndTime.
 
 personIsSitting(Person, Vehicle, Time) :-
 	person(Person, Time),
